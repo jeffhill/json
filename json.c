@@ -29,7 +29,7 @@ struct JSON_Value* JSON_Value_New_String(const char* stringData) {
 }
 
 struct JSON_Value* JSON_Value_New_Number(double numberValue) {
-    struct JSON_Value* pResult= JSON_value_new(JSON_VALUE_TYPE_STRING);
+    struct JSON_Value* pResult= JSON_value_new(JSON_VALUE_TYPE_NUMBER);
     pResult->number_value= numberValue;
     return pResult;
 }

@@ -24,8 +24,12 @@ void doFileTest(const char *fileName) {
     long count= ftell(fptr);
     fseek(fptr, 0, SEEK_SET);
     char *buffer= (char*)malloc(count * sizeof(char));
-    fread(buffer, 1, count, fptr);
+    long read = fread(buffer, 1, count, fptr);
     fclose(fptr);
+    if (read != count) {
+        perror("Read failed");
+        return;
+    }
     struct JSON_Value *pValue= JSON_Decode(buffer);
     if (pValue->type == JSON_VALUE_TYPE_ERROR) {
         struct JSON_Error *pError = (struct JSON_Error*)pValue;
