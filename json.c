@@ -219,8 +219,7 @@ expect_exponent_digit:
     goto expect_exponent_digit;
 
 done:
-    result= JSON_value_new(JSON_VALUE_TYPE_NUMBER);
-    result->number_value= sign * (whole_part + fractional_part);
+    result= JSON_Value_New_Number(sign * (whole_part + fractional_part));
     if (exponent_part != 0) {
         result->number_value= result->number_value * pow(10, exponent_sign * exponent_part);
     }
@@ -373,7 +372,7 @@ struct JSON_Value *JSON_decode_object(struct JSON_decoder_state *pState) {
     JSON_skip_ws(pState);
 
     // Allocate an object in result!
-    result= JSON_value_new(JSON_VALUE_TYPE_OBJECT);
+    result= JSON_Value_New_Object();
     pNextPtr= &result->compound_value;
     *pNextPtr= 0;
 
@@ -445,7 +444,7 @@ static struct JSON_Value* JSON_decode_array(struct JSON_decoder_state *pState) {
     JSON_next_char(pState);
 
     // Allocate an object in result!
-    result= JSON_value_new(JSON_VALUE_TYPE_ARRAY);
+    result= JSON_Value_New_Array();
     pNextPtr= &result->compound_value;
     *pNextPtr= 0;
 
@@ -496,7 +495,7 @@ static struct JSON_Value* JSON_decode_true(struct JSON_decoder_state *pState) {
         return JSON_error_new(pState, "Expected 'true'.");
     } else {
         pState->currentChar+= 4;
-        return JSON_value_new(JSON_VALUE_TYPE_TRUE);
+        return JSON_Value_New_True();
     }
 }
 
@@ -510,7 +509,7 @@ static struct JSON_Value* JSON_decode_false(struct JSON_decoder_state *pState) {
         return JSON_error_new(pState, "Expected 'false'.");
     } else {
         pState->currentChar+= 5;
-        return JSON_value_new(JSON_VALUE_TYPE_FALSE);
+        return JSON_Value_New_False();
     }
 }
 
@@ -523,7 +522,7 @@ static struct JSON_Value* JSON_decode_null(struct JSON_decoder_state *pState) {
         return JSON_error_new(pState, "Expected 'null'.");
     } else {
         pState->currentChar+= 4;
-        return JSON_value_new(JSON_VALUE_TYPE_NULL);
+        return JSON_Value_New_Null();
     }
 }
 
